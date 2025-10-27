@@ -1,59 +1,77 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StormPHP Framework - Lightweight, Fast, Modern PHP Framework</title>
-    <meta name="description" content="StormPHP is a modern, lightweight PHP framework with zero dependencies. Build powerful applications with just 4 lines of code.">
+    <title>StormPHP Framework - Lekki, szybki framework PHP</title>
+    <meta name="description" content="StormPHP - nowoczesny, lekki framework PHP. Zaledwie ~100KB, zero zależności. Zbuduj swoją aplikację w 4 liniach kodu.">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- Navigation -->
     <nav class="navbar">
         <div class="container">
             <div class="nav-brand">
                 <span class="logo">⚡ StormPHP</span>
             </div>
             <ul class="nav-menu">
-                <li><a href="#features">Features</a></li>
-                <li><a href="#quickstart">Quick Start</a></li>
-                <li><a href="docs/index.html">Documentation</a></li>
-                <li><a href="https://github.com/stormmore/framework" target="_blank">GitHub</a></li>
+                <li><a href="#features">Funkcje</a></li>
+                <li><a href="#why">Dlaczego Storm?</a></li>
+                <li><a href="#demo">Demo</a></li>
+                <li><a href="docs/index.html" class="nav-docs">📚 Dokumentacja</a></li>
             </ul>
         </div>
     </nav>
 
+    <!-- Hero Section -->
     <header class="hero">
         <div class="container">
             <div class="hero-content">
+                <div class="hero-badge">
+                    <span class="badge">🚀 Nowa wersja dostępna</span>
+                </div>
+
                 <h1 class="hero-title">
-                    <span class="gradient-text">StormPHP Framework</span>
+                    Buduj aplikacje PHP<br>
+                    <span class="gradient-text">z radością i satysfakcją</span>
                 </h1>
+
                 <p class="hero-subtitle">
-                    Built with love to deliver joy and satisfaction with every piece of code you write.
+                    StormPHP to nowoczesny, intuicyjny framework, który sprawia,
+                    że tworzenie aplikacji jest proste i przyjemne.
                 </p>
-                <p class="hero-description">
-                    Intuitive, lightweight, and blazing fast — start building modern PHP applications in just 4 lines of code.
-                </p>
-                <div class="hero-stats">
-                    <div class="stat">
-                        <div class="stat-value">~100KB</div>
-                        <div class="stat-label">Tiny Footprint</div>
+
+                <div class="hero-features">
+                    <div class="hero-feature">
+                        <span class="feature-icon">⚡</span>
+                        <span>~100KB</span>
                     </div>
-                    <div class="stat">
-                        <div class="stat-value">Zero</div>
-                        <div class="stat-label">Dependencies</div>
+                    <div class="hero-feature">
+                        <span class="feature-icon">📦</span>
+                        <span>Zero zależności</span>
                     </div>
-                    <div class="stat">
-                        <div class="stat-value">PHP 8+</div>
-                        <div class="stat-label">Modern</div>
+                    <div class="hero-feature">
+                        <span class="feature-icon">🎯</span>
+                        <span>4 linie kodu</span>
                     </div>
                 </div>
+
                 <div class="hero-cta">
-                    <a href="docs/getting-started.html" class="btn btn-primary">Get Started</a>
-                    <a href="docs/index.html" class="btn btn-secondary">Documentation</a>
+                    <a href="docs/getting-started.html" class="btn btn-primary btn-large">
+                        <span>Rozpocznij w 5 minut</span>
+                        <span class="btn-arrow">→</span>
+                    </a>
+                    <a href="docs/index.html" class="btn btn-secondary btn-large">
+                        Zobacz dokumentację
+                    </a>
+                </div>
+
+                <div class="hero-note">
+                    <p>✓ Darmowy i open-source (MIT) • ✓ PHP 8+ • ✓ Produkcyjnie gotowy</p>
                 </div>
             </div>
-            <div class="hero-code">
+
+            <div class="hero-visual">
                 <div class="code-window">
                     <div class="code-header">
                         <span class="code-dot red"></span>
@@ -65,281 +83,332 @@
 <span class="keyword">require</span> <span class="string">'vendor/autoload.php'</span>;
 
 <span class="variable">$app</span> = <span class="class">App</span>::<span class="method">create</span>();
-<span class="variable">$app</span>-><span class="method">addRoute</span>(<span class="string">'/'</span>, <span class="keyword">fn</span>() => <span class="string">"Hello, world!"</span>);
+<span class="variable">$app</span>-><span class="method">addRoute</span>(<span class="string">'/'</span>, <span class="keyword">fn</span>() => <span class="string">"Hello!"</span>);
 <span class="variable">$app</span>-><span class="method">run</span>();</code></pre>
+                    <div class="code-output">
+                        <div class="output-label">Wynik:</div>
+                        <div class="output-content">🌐 Aplikacja uruchomiona na http://localhost:8000</div>
+                    </div>
                 </div>
             </div>
         </div>
     </header>
 
-    <section id="features" class="features">
+    <!-- Why Section -->
+    <section id="why" class="why-section">
         <div class="container">
-            <h2 class="section-title">Why Choose StormPHP?</h2>
-            <p class="section-subtitle">Everything you need to build modern PHP applications</p>
+            <div class="section-header">
+                <h2 class="section-title">Dlaczego StormPHP?</h2>
+                <p class="section-subtitle">Framework stworzony z myślą o Tobie i Twoim projekcie</p>
+            </div>
 
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">🚀</div>
-                    <h3>Blazing Fast</h3>
-                    <p>Minimal footprint (~100KB) with zero dependencies. Optimized for performance with intelligent caching.</p>
+            <div class="why-grid">
+                <div class="why-card">
+                    <div class="why-icon">⚡</div>
+                    <h3>Błyskawicznie szybki</h3>
+                    <p>Zaledwie ~100KB bez żadnych zależności. Nie musisz pobierać dziesiątek bibliotek. Framework startuje natychmiast i działa błyskawicznie.</p>
                 </div>
 
-                <div class="feature-card">
-                    <div class="feature-icon">🎯</div>
-                    <h3>Easy to Learn</h3>
-                    <p>Intuitive API design. Start coding in minutes with clear documentation and helpful examples.</p>
+                <div class="why-card">
+                    <div class="why-icon">🎯</div>
+                    <h3>Łatwy w nauce</h3>
+                    <p>Intuicyjny API, które poczujesz już po 5 minutach. Nie spędzaj tygodni na nauce - zacznij tworzyć już dziś.</p>
                 </div>
 
-                <div class="feature-card">
-                    <div class="feature-icon">💉</div>
-                    <h3>Dependency Injection</h3>
-                    <p>Built-in DI container with automatic resolution. Constructor-based injection out of the box.</p>
+                <div class="why-card">
+                    <div class="why-icon">🔧</div>
+                    <h3>Kompletny zestaw narzędzi</h3>
+                    <p>Dependency Injection, routing, walidacja, internacjonalizacja, uwierzytelnianie - wszystko gotowe out-of-the-box.</p>
                 </div>
 
-                <div class="feature-card">
-                    <div class="feature-icon">🔄</div>
-                    <h3>Middleware Pipeline</h3>
-                    <p>Powerful middleware system for request processing. Easily extend and customize behavior.</p>
+                <div class="why-card">
+                    <div class="why-icon">🚀</div>
+                    <h3>Produkcyjnie gotowy</h3>
+                    <p>Używany w prawdziwych projektach. System cache'owania, logging, obsługa błędów - wszystko czego potrzebujesz.</p>
                 </div>
 
-                <div class="feature-card">
-                    <div class="feature-icon">🌍</div>
-                    <h3>Internationalization</h3>
-                    <p>First-class i18n support with multiple languages, cultures, and automatic translation management.</p>
+                <div class="why-card">
+                    <div class="why-icon">💉</div>
+                    <h3>Nowoczesny PHP 8+</h3>
+                    <p>Atrybuty, union types, readonly properties. Pełne wsparcie dla najnowszych funkcji PHP.</p>
                 </div>
 
-                <div class="feature-card">
-                    <div class="feature-icon">🎨</div>
-                    <h3>Mature View System</h3>
-                    <p>PHP-based templates with layouts, child views, and asset management. No compilation needed.</p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">✅</div>
-                    <h3>Validation & Forms</h3>
-                    <p>23+ built-in validators with fluent API. Easy form handling and model binding.</p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">📧</div>
-                    <h3>Mailing System</h3>
-                    <p>Built-in mailer with SMTP support, templates, and internationalization ready.</p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">🔐</div>
-                    <h3>Authentication</h3>
-                    <p>User authentication and authorization with claims-based security and route protection.</p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">📡</div>
-                    <h3>Event Dispatcher</h3>
-                    <p>Event-driven architecture with auto-discovery. Decouple your application components.</p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">⚙️</div>
-                    <h3>CQS Pattern</h3>
-                    <p>Command Query Separation built-in. Organize complex business logic cleanly.</p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">🔧</div>
-                    <h3>CLI Support</h3>
-                    <p>Run tasks and controllers from command line. Perfect for cron jobs and scripts.</p>
+                <div class="why-card">
+                    <div class="why-icon">🎨</div>
+                    <h3>Zero kompromisów</h3>
+                    <p>Mały nie znaczy ograniczony. Pełna funkcjonalność MVC, middleware, eventy, CQS - wszystko w jednym pakiecie.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="quickstart" class="quickstart">
+    <!-- Features Section -->
+    <section id="features" class="features-showcase">
         <div class="container">
-            <h2 class="section-title">Quick Start</h2>
-            <p class="section-subtitle">Get up and running in 60 seconds</p>
+            <div class="section-header">
+                <h2 class="section-title">Wszystko czego potrzebujesz</h2>
+                <p class="section-subtitle">Kompletny framework dla nowoczesnych aplikacji web</p>
+            </div>
 
-            <div class="quickstart-steps">
-                <div class="step">
-                    <div class="step-number">1</div>
-                    <div class="step-content">
-                        <h3>Install via Composer</h3>
-                        <div class="code-block">
-                            <code>composer require stormmore/framework</code>
-                        </div>
-                        <p class="step-note">Or download the ZIP and include the autoloader</p>
+            <div class="features-list">
+                <div class="feature-item">
+                    <div class="feature-icon-large">💉</div>
+                    <div class="feature-content">
+                        <h3>Dependency Injection</h3>
+                        <p>Wbudowany kontener DI z automatycznym rozwiązywaniem zależności. Wstrzykiwanie przez konstruktor działa od razu.</p>
                     </div>
                 </div>
 
-                <div class="step">
-                    <div class="step-number">2</div>
-                    <div class="step-content">
-                        <h3>Create your first app</h3>
-                        <div class="code-block">
-<pre><code><span class="keyword">&lt;?php</span>
-<span class="keyword">require</span> <span class="string">'vendor/autoload.php'</span>;
-
-<span class="variable">$app</span> = <span class="class">App</span>::<span class="method">create</span>();
-<span class="variable">$app</span>-><span class="method">addRoute</span>(<span class="string">'/'</span>, <span class="keyword">fn</span>() => <span class="string">"Hello, world!"</span>);
-<span class="variable">$app</span>-><span class="method">run</span>();</code></pre>
-                        </div>
+                <div class="feature-item">
+                    <div class="feature-icon-large">🛣️</div>
+                    <div class="feature-content">
+                        <h3>Routing oparty na atrybutach</h3>
+                        <p>Dodaj <code>#[Route("/users/:id")]</code> i gotowe. Automatyczne wykrywanie kontrolerów, parametry URL, wszystkie metody HTTP.</p>
                     </div>
                 </div>
 
-                <div class="step">
-                    <div class="step-number">3</div>
-                    <div class="step-content">
-                        <h3>Run your application</h3>
-                        <div class="code-block">
-                            <code>php -S localhost:8000</code>
-                        </div>
-                        <p class="step-note">Visit <strong>http://localhost:8000</strong> in your browser</p>
+                <div class="feature-item">
+                    <div class="feature-icon-large">✅</div>
+                    <div class="feature-content">
+                        <h3>Walidacja i formularze</h3>
+                        <p>23+ wbudowanych walidatorów. Fluent API do łatwej walidacji. Obsługa błędów i model binding.</p>
+                    </div>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-icon-large">🌍</div>
+                    <div class="feature-content">
+                        <h3>Internacjonalizacja (i18n)</h3>
+                        <p>Pełne wsparcie dla wielu języków. Tłumaczenia, kultury, formaty daty i liczb. Wszystko wbudowane.</p>
+                    </div>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-icon-large">🎨</div>
+                    <div class="feature-content">
+                        <h3>System widoków</h3>
+                        <p>Layouty, częściowe widoki, helpery. Proste pliki PHP bez kompilacji. Szybko i przejrzyście.</p>
+                    </div>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-icon-large">🔐</div>
+                    <div class="feature-content">
+                        <h3>Uwierzytelnianie</h3>
+                        <p>System użytkowników, autoryzacja oparta na uprawnieniach, atrybuty <code>#[Authenticate]</code> i <code>#[Authorize]</code>.</p>
                     </div>
                 </div>
             </div>
 
-            <div class="quickstart-cta">
-                <a href="docs/getting-started.html" class="btn btn-primary btn-large">Read Full Documentation</a>
+            <div class="features-cta">
+                <a href="docs/index.html" class="btn btn-outline">
+                    Zobacz wszystkie funkcje →
+                </a>
             </div>
         </div>
     </section>
 
-    <section class="example">
+    <!-- Demo Section -->
+    <section id="demo" class="demo-section">
         <div class="container">
-            <h2 class="section-title">Build Real Applications</h2>
-            <p class="section-subtitle">From simple APIs to complex web applications</p>
+            <div class="section-header">
+                <h2 class="section-title">Zobacz jak to działa</h2>
+                <p class="section-subtitle">Prawdziwy kod, prawdziwe rozwiązania</p>
+            </div>
 
-            <div class="example-grid">
-                <div class="example-item">
-                    <h3>🎯 Controller Example</h3>
-                    <div class="code-block">
-<pre><code><span class="keyword">&lt;?php</span>
+            <div class="demo-tabs">
+                <button class="demo-tab active" data-demo="controller">Kontroler</button>
+                <button class="demo-tab" data-demo="validation">Walidacja</button>
+                <button class="demo-tab" data-demo="di">Dependency Injection</button>
+            </div>
+
+            <div class="demo-content">
+                <div class="demo-panel active" id="demo-controller">
+                    <pre><code><span class="keyword">&lt;?php</span>
+<span class="keyword">namespace</span> <span class="class">App\Controllers</span>;
+
 <span class="keyword">use</span> <span class="class">Stormmore\Framework\Mvc\Attributes\Controller</span>;
 <span class="keyword">use</span> <span class="class">Stormmore\Framework\Mvc\Attributes\Route</span>;
-<span class="keyword">use</span> <span class="class">Stormmore\Framework\Mvc\View\View</span>;
+<span class="keyword">use</span> <span class="class">Stormmore\Framework\Mvc\Attributes\Get</span>;
 
 <span class="attribute">#[Controller]</span>
-<span class="keyword">readonly class</span> <span class="class">HomepageController</span>
+<span class="keyword">readonly class</span> <span class="class">UserController</span>
 {
-    <span class="attribute">#[Route(<span class="string">"/"</span>)]</span>
-    <span class="keyword">public function</span> <span class="method">index</span>(): <span class="class">View</span>
+    <span class="comment">// Automatyczne wstrzykiwanie zależności</span>
+    <span class="keyword">public function</span> <span class="method">__construct</span>(
+        <span class="keyword">private</span> <span class="class">UserService</span> <span class="variable">$userService</span>,
+        <span class="keyword">private</span> <span class="class">Mailer</span> <span class="variable">$mailer</span>
+    ) {}
+
+    <span class="attribute">#[Get]</span>
+    <span class="attribute">#[Route(<span class="string">"/users/:id"</span>)]</span>
+    <span class="keyword">public function</span> <span class="method">show</span>(<span class="keyword">int</span> <span class="variable">$id</span>): <span class="class">View</span>
     {
-        <span class="keyword">return</span> <span class="function">view</span>(<span class="string">"@templates/homepage"</span>);
+        <span class="variable">$user</span> = <span class="variable">$this</span>-><span class="attribute">userService</span>-><span class="method">findById</span>(<span class="variable">$id</span>);
+
+        <span class="keyword">return</span> <span class="function">view</span>(<span class="string">'user/profile'</span>, [
+            <span class="string">'user'</span> => <span class="variable">$user</span>
+        ]);
     }
 }</code></pre>
-                    </div>
                 </div>
 
-                <div class="example-item">
-                    <h3>✅ Validation Example</h3>
-                    <div class="code-block">
-<pre><code><span class="keyword">&lt;?php</span>
+                <div class="demo-panel" id="demo-validation">
+                    <pre><code><span class="keyword">&lt;?php</span>
 <span class="keyword">use</span> <span class="class">Stormmore\Framework\Validation\Validator</span>;
 
+<span class="comment">// Twórz walidatory w prosty sposób</span>
 <span class="variable">$validator</span> = <span class="class">Validator</span>::<span class="method">create</span>()
     -><span class="method">field</span>(<span class="string">'email'</span>, <span class="keyword">fn</span>(<span class="variable">$f</span>) =>
         <span class="variable">$f</span>-><span class="method">email</span>()-><span class="method">required</span>()
     )
     -><span class="method">field</span>(<span class="string">'age'</span>, <span class="keyword">fn</span>(<span class="variable">$f</span>) =>
-        <span class="variable">$f</span>-><span class="method">int</span>()-><span class="method">min</span>(<span class="number">18</span>)
+        <span class="variable">$f</span>-><span class="method">int</span>()-><span class="method">min</span>(<span class="number">18</span>)-><span class="method">max</span>(<span class="number">120</span>)
+    )
+    -><span class="method">field</span>(<span class="string">'password'</span>, <span class="keyword">fn</span>(<span class="variable">$f</span>) =>
+        <span class="variable">$f</span>-><span class="method">minLength</span>(<span class="number">8</span>)-><span class="method">required</span>()
     );
 
-<span class="variable">$result</span> = <span class="variable">$validator</span>-><span class="method">validate</span>(<span class="variable">$data</span>);</code></pre>
-                    </div>
+<span class="variable">$result</span> = <span class="variable">$validator</span>-><span class="method">validate</span>(<span class="variable">$data</span>);
+
+<span class="keyword">if</span> (!<span class="variable">$result</span>-><span class="method">isValid</span>()) {
+    <span class="comment">// Obsłuż błędy walidacji</span>
+    <span class="variable">$errors</span> = <span class="variable">$result</span>-><span class="method">getErrors</span>();
+}</code></pre>
                 </div>
 
-                <div class="example-item">
-                    <h3>💉 Dependency Injection</h3>
-                    <div class="code-block">
-<pre><code><span class="keyword">&lt;?php</span>
-<span class="attribute">#[Controller]</span>
-<span class="keyword">readonly class</span> <span class="class">UserController</span>
+                <div class="demo-panel" id="demo-di">
+                    <pre><code><span class="keyword">&lt;?php</span>
+<span class="comment">// Zdefiniuj serwis</span>
+<span class="keyword">class</span> <span class="class">EmailService</span>
 {
     <span class="keyword">public function</span> <span class="method">__construct</span>(
-        <span class="keyword">private</span> <span class="class">Database</span> <span class="variable">$db</span>,
         <span class="keyword">private</span> <span class="class">Mailer</span> <span class="variable">$mailer</span>,
-        <span class="keyword">private</span> <span class="class">Request</span> <span class="variable">$request</span>
+        <span class="keyword">private</span> <span class="class">Logger</span> <span class="variable">$logger</span>
     ) {}
 
-    <span class="attribute">#[Route(<span class="string">"/users/:id"</span>)]</span>
-    <span class="keyword">public function</span> <span class="method">show</span>(<span class="keyword">int</span> <span class="variable">$id</span>): <span class="class">View</span>
+    <span class="keyword">public function</span> <span class="method">sendWelcome</span>(<span class="class">User</span> <span class="variable">$user</span>)
     {
-        <span class="comment">// Dependencies automatically injected!</span>
+        <span class="variable">$this</span>-><span class="attribute">logger</span>-><span class="method">info</span>(<span class="string">"Sending welcome email"</span>);
+        <span class="variable">$this</span>-><span class="attribute">mailer</span>-><span class="method">send</span>(<span class="variable">$user</span>-><span class="attribute">email</span>, <span class="string">'welcome'</span>);
     }
+}
+
+<span class="comment">// Użyj w kontrolerze - automatyczne wstrzyknięcie!</span>
+<span class="attribute">#[Controller]</span>
+<span class="keyword">class</span> <span class="class">RegisterController</span>
+{
+    <span class="keyword">public function</span> <span class="method">__construct</span>(
+        <span class="keyword">private</span> <span class="class">EmailService</span> <span class="variable">$emailService</span>
+    ) {}
 }</code></pre>
-                    </div>
-                </div>
-
-                <div class="example-item">
-                    <h3>🌍 Internationalization</h3>
-                    <div class="code-block">
-<pre><code><span class="keyword">&lt;?php</span>
-<span class="comment">// In your view or controller</span>
-<span class="keyword">echo</span> <span class="function">t</span>(<span class="string">'welcome.message'</span>);
-<span class="keyword">echo</span> <span class="function">t</span>(<span class="string">'greeting.hello'</span>, <span class="variable">$name</span>);
-<span class="keyword">echo</span> <span class="function">_quantity</span>(<span class="string">'item'</span>, <span class="variable">$count</span>);
-
-<span class="comment">// lang/en-US.ini</span>
-<span class="comment">; welcome.message = "Welcome to our site!"</span>
-<span class="comment">; greeting.hello = "Hello, %s!"</span>
-<span class="comment">; item_singular = "item"</span>
-<span class="comment">; item_plural = "items"</span></code></pre>
-                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="cta">
+    <!-- CTA Section -->
+    <section class="cta-section">
         <div class="container">
-            <div class="cta-content">
-                <h2>Ready to build something amazing?</h2>
-                <p>Join developers who chose StormPHP for their next project</p>
+            <div class="cta-box">
+                <h2>Gotowy żeby zacząć?</h2>
+                <p>Zbuduj swoją pierwszą aplikację w mniej niż 5 minut</p>
                 <div class="cta-buttons">
-                    <a href="docs/getting-started.html" class="btn btn-primary btn-large">Get Started Now</a>
-                    <a href="docs/index.html" class="btn btn-secondary btn-large">View Documentation</a>
+                    <a href="docs/getting-started.html" class="btn btn-primary btn-large">
+                        Rozpocznij teraz →
+                    </a>
+                    <a href="docs/tutorial.html" class="btn btn-white btn-large">
+                        Zobacz tutorial
+                    </a>
+                </div>
+                <div class="cta-install">
+                    <p>Lub zainstaluj od razu:</p>
+                    <div class="install-command">
+                        <code>composer require stormmore/framework</code>
+                        <button class="copy-btn" onclick="copyToClipboard('composer require stormmore/framework')">📋</button>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- Footer -->
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
                     <h4>⚡ StormPHP</h4>
-                    <p>Built with love to deliver joy and satisfaction with every piece of code you write.</p>
+                    <p>Nowoczesny framework PHP stworzony z myślą o prostocie i wydajności.</p>
+                    <div class="footer-social">
+                        <a href="https://github.com/stormmore/framework" target="_blank">GitHub</a>
+                    </div>
                 </div>
+
                 <div class="footer-section">
-                    <h4>Documentation</h4>
+                    <h4>Dokumentacja</h4>
                     <ul>
-                        <li><a href="docs/getting-started.html">Getting Started</a></li>
-                        <li><a href="docs/installation.html">Installation</a></li>
-                        <li><a href="docs/routing.html">Routing</a></li>
-                        <li><a href="docs/controllers.html">Controllers</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4>Resources</h4>
-                    <ul>
-                        <li><a href="docs/index.html">Full Documentation</a></li>
-                        <li><a href="https://github.com/stormmore/framework">GitHub</a></li>
-                        <li><a href="docs/examples.html">Examples</a></li>
+                        <li><a href="docs/installation.html">Instalacja</a></li>
+                        <li><a href="docs/getting-started.html">Szybki start</a></li>
                         <li><a href="docs/tutorial.html">Tutorial</a></li>
+                        <li><a href="docs/index.html">Pełna dokumentacja</a></li>
                     </ul>
                 </div>
+
                 <div class="footer-section">
-                    <h4>Community</h4>
+                    <h4>Funkcje</h4>
                     <ul>
-                        <li><a href="https://github.com/stormmore/framework/issues">Issues</a></li>
-                        <li><a href="https://github.com/stormmore/framework/discussions">Discussions</a></li>
-                        <li><a href="https://github.com/stormmore/framework/blob/main/LICENSE">License (MIT)</a></li>
+                        <li><a href="docs/routing.html">Routing</a></li>
+                        <li><a href="docs/controllers.html">Kontrolery</a></li>
+                        <li><a href="docs/validation.html">Walidacja</a></li>
+                        <li><a href="docs/i18n.html">Internacjonalizacja</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Społeczność</h4>
+                    <ul>
+                        <li><a href="https://github.com/stormmore/framework/issues">Zgłoś problem</a></li>
+                        <li><a href="https://github.com/stormmore/framework/discussions">Dyskusje</a></li>
+                        <li><a href="https://github.com/stormmore/framework/blob/main/LICENSE">Licencja MIT</a></li>
                     </ul>
                 </div>
             </div>
+
             <div class="footer-bottom">
-                <p>&copy; 2025 StormPHP Framework. Open-source under the MIT License.</p>
+                <p>&copy; 2025 StormPHP Framework. Open-source na licencji MIT.</p>
             </div>
         </div>
     </footer>
+
+    <script>
+        // Demo tabs
+        document.querySelectorAll('.demo-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.demo-tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.demo-panel').forEach(p => p.classList.remove('active'));
+
+                tab.classList.add('active');
+                document.getElementById('demo-' + tab.dataset.demo).classList.add('active');
+            });
+        });
+
+        // Copy to clipboard
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Skopiowano do schowka!');
+            });
+        }
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
 </body>
 </html>
