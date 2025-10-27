@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Routing - StormPHP Framework</title>
+    <link rel="stylesheet" href="docs.css">
+</head>
+<body>
+    <div class="docs-layout">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <a href="../index.html" class="sidebar-logo">⚡ StormPHP</a>
+            </div>
+            <nav><ul class="sidebar-nav">
+                <li class="sidebar-section"><div class="sidebar-section-title">Podstawy</div>
+                <a href="routing.html" class="active">Routing</a>
+                <a href="controllers.html">Kontrolery</a>
+                <a href="views.html">Widoki</a></li></ul></nav>
+        </aside>
+        <main class="docs-main">
+            <h1>Routing w StormPHP</h1>
+            <p>StormPHP używa routingu opartego na atrybutach PHP 8+</p>
+            <h2>Podstawowy routing</h2>
+            <pre><code>#[Route("/")]
+public function index(): View { }</code></pre>
+            <h2>Parametry URL</h2>
+            <pre><code>#[Route("/users/:id")]
+public function show(int $id): View { }</code></pre>
+            <h2>Metody HTTP</h2>
+            <pre><code>#[Get]
+#[Route("/posts")]
+public function list(): View { }
+
+#[Post]
+#[Route("/posts")]
+public function create(): Redirect { }</code></pre>
+            <p>Zobacz pełny przykład w <a href="tutorial.html">tutorialu</a>.</p>
+        </main>
+    </div>
+</body>
+</html>

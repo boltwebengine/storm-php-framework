@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instalacja - StormPHP Framework</title>
+    <link rel="stylesheet" href="docs.css">
+</head>
+<body>
+    <div class="docs-layout">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <a href="../index.html" class="sidebar-logo">⚡ StormPHP</a>
+            </div>
+            <nav>
+                <ul class="sidebar-nav">
+                    <li class="sidebar-section">
+                        <div class="sidebar-section-title">Wprowadzenie</div>
+                        <a href="index.html">Wprowadzenie</a>
+                        <a href="installation.html" class="active">Instalacja</a>
+                        <a href="getting-started.html">Szybki start</a>
+                        <a href="configuration.html">Konfiguracja</a>
+                    </li>
+                    <li class="sidebar-section">
+                        <div class="sidebar-section-title">Podstawy</div>
+                        <a href="routing.html">Routing</a>
+                        <a href="controllers.html">Kontrolery</a>
+                        <a href="views.html">Widoki i szablony</a>
+                        <a href="middleware.html">Middleware</a>
+                        <a href="dependency-injection.html">Dependency Injection</a>
+                    </li>
+                    <li class="sidebar-section">
+                        <div class="sidebar-section-title">Funkcje</div>
+                        <a href="validation.html">Walidacja i formularze</a>
+                        <a href="i18n.html">Internacjonalizacja</a>
+                        <a href="authentication.html">Uwierzytelnianie</a>
+                        <a href="database.html">Bazy danych</a>
+                        <a href="mailing.html">System mailingowy</a>
+                        <a href="events.html">Eventy</a>
+                        <a href="cqs.html">CQS</a>
+                        <a href="cli.html">CLI</a>
+                    </li>
+                    <li class="sidebar-section">
+                        <div class="sidebar-section-title">Zaawansowane</div>
+                        <a href="caching.html">Cache</a>
+                        <a href="logging.html">Logowanie</a>
+                        <a href="testing.html">Testowanie</a>
+                    </li>
+                    <li class="sidebar-section">
+                        <div class="sidebar-section-title">Samouczki</div>
+                        <a href="tutorial.html">Tworzenie pierwszej aplikacji</a>
+                        <a href="examples.html">Przykłady</a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="docs-main">
+            <div class="docs-header">
+                <h1 class="docs-title">Instalacja</h1>
+                <p class="docs-subtitle">Zainstaluj StormPHP i rozpocznij budowanie aplikacji</p>
+            </div>
+
+            <section>
+                <h2>Wymagania systemowe</h2>
+                <p>Przed instalacją StormPHP upewnij się, że spełniasz następujące wymagania:</p>
+                <ul>
+                    <li><strong>PHP 8.0</strong> lub nowszy</li>
+                    <li><strong>Composer</strong> (opcjonalnie, zalecane)</li>
+                    <li>Rozszerzenia PHP: <code>json</code>, <code>mbstring</code></li>
+                </ul>
+
+                <div class="callout callout-info">
+                    <div class="callout-title">Zalecane rozszerzenia</div>
+                    Dla pełnej funkcjonalności zalecamy również: <code>curl</code>, <code>openssl</code>, <code>pdo</code>
+                </div>
+            </section>
+
+            <section>
+                <h2>Instalacja przez Composer</h2>
+                <p>Najprostszy sposób instalacji StormPHP to użycie Composera:</p>
+
+                <h3>Krok 1: Instalacja frameworka</h3>
+                <pre><code>composer require stormmore/framework</code></pre>
+
+                <h3>Krok 2: Utwórz strukturę projektu</h3>
+                <p>Utwórz następującą strukturę katalogów dla swojej aplikacji:</p>
+                <pre><code>my_app/
+├── public_html/         # Publiczny katalog web
+│   └── index.php        # Punkt wejścia aplikacji
+├── src/                 # Kod źródłowy aplikacji
+│   ├── Controllers/
+│   └── templates/
+├── .cache/              # Cache (tworzone automatycznie)
+├── .logs/               # Logi (tworzone automatycznie)
+├── env.ini              # Konfiguracja środowiska
+└── composer.json</code></pre>
+
+                <h3>Krok 3: Utwórz plik index.php</h3>
+                <p>W katalogu <code>public_html/index.php</code> dodaj:</p>
+                <pre><code><span class="keyword">&lt;?php</span>
+<span class="keyword">require</span> <span class="string">'../vendor/autoload.php'</span>;
+
+<span class="keyword">use</span> <span class="class">Stormmore\Framework\App</span>;
+
+<span class="variable">$app</span> = <span class="class">App</span>::<span class="method">create</span>(directories: [
+    <span class="string">'project'</span> => <span class="string">'../'</span>,
+    <span class="string">'source'</span>  => <span class="string">'../src'</span>,
+    <span class="string">'cache'</span>   => <span class="string">'../.cache'</span>,
+    <span class="string">'logs'</span>    => <span class="string">'../.logs'</span>,
+    <span class="string">'templates'</span> => <span class="string">'../src/templates'</span>
+]);
+
+<span class="variable">$app</span>-><span class="method">run</span>();</code></pre>
+
+                <div class="callout callout-success">
+                    <div class="callout-title">Gotowe!</div>
+                    Twoja aplikacja jest już zainstalowana. Możesz teraz uruchomić wbudowany serwer PHP.
+                </div>
+            </section>
+
+            <section>
+                <h2>Instalacja bez Composera (Standalone)</h2>
+                <p>Możesz również zainstalować StormPHP bez użycia Composera:</p>
+
+                <h3>Krok 1: Pobierz framework</h3>
+                <p>Pobierz najnowszą wersję StormPHP z <a href="https://github.com/stormmore/framework" target="_blank">GitHub</a> jako plik ZIP.</p>
+
+                <h3>Krok 2: Wypakuj pliki</h3>
+                <p>Wypakuj zawartość archiwum do swojego projektu:</p>
+                <pre><code>my_app/
+├── storm/              # Framework StormPHP
+│   └── src/
+├── public_html/
+│   └── index.php
+└── src/</code></pre>
+
+                <h3>Krok 3: Dołącz autoloader</h3>
+                <p>W pliku <code>index.php</code> użyj autoloadera StormPHP:</p>
+                <pre><code><span class="keyword">&lt;?php</span>
+<span class="keyword">require</span> <span class="string">'../storm/src/autoload.php'</span>;
+
+<span class="keyword">use</span> <span class="class">Stormmore\Framework\App</span>;
+
+<span class="variable">$app</span> = <span class="class">App</span>::<span class="method">create</span>();
+<span class="variable">$app</span>-><span class="method">run</span>();</code></pre>
+            </section>
+
+            <section>
+                <h2>Uruchamianie aplikacji</h2>
+
+                <h3>Wbudowany serwer PHP</h3>
+                <p>Do celów deweloperskich możesz użyć wbudowanego serwera PHP:</p>
+                <pre><code>cd public_html
+php -S localhost:8000</code></pre>
+                <p>Następnie otwórz przeglądarkę i przejdź do <code>http://localhost:8000</code></p>
+
+                <h3>Apache</h3>
+                <p>Jeśli używasz Apache, upewnij się, że katalog <code>public_html</code> jest ustawiony jako document root.</p>
+                <p>Utwórz plik <code>.htaccess</code> w katalogu <code>public_html</code>:</p>
+                <pre><code>RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.php [QSA,L]</code></pre>
+
+                <h3>Nginx</h3>
+                <p>Przykładowa konfiguracja dla Nginx:</p>
+                <pre><code>server {
+    listen 80;
+    server_name example.com;
+    root /path/to/my_app/public_html;
+
+    index index.php;
+
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
+    location ~ \.php$ {
+        fastcgi_pass unix:/var/run/php/php8.0-fpm.sock;
+        fastcgi_index index.php;
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    }
+}</code></pre>
+            </section>
+
+            <section>
+                <h2>Weryfikacja instalacji</h2>
+                <p>Aby sprawdzić czy instalacja przebiegła pomyślnie, utwórz prosty kontroler:</p>
+
+                <h3>src/Controllers/HomeController.php</h3>
+                <pre><code><span class="keyword">&lt;?php</span>
+<span class="keyword">namespace</span> <span class="class">App\Controllers</span>;
+
+<span class="keyword">use</span> <span class="class">Stormmore\Framework\Mvc\Attributes\Controller</span>;
+<span class="keyword">use</span> <span class="class">Stormmore\Framework\Mvc\Attributes\Route</span>;
+
+<span class="attribute">#[Controller]</span>
+<span class="keyword">class</span> <span class="class">HomeController</span>
+{
+    <span class="attribute">#[Route(<span class="string">"/"</span>)]</span>
+    <span class="keyword">public function</span> <span class="method">index</span>(): <span class="keyword">string</span>
+    {
+        <span class="keyword">return</span> <span class="string">"StormPHP działa poprawnie!"</span>;
+    }
+}</code></pre>
+
+                <p>Odwiedź <code>http://localhost:8000</code> - powinieneś zobaczyć komunikat "StormPHP działa poprawnie!"</p>
+
+                <div class="callout callout-success">
+                    <div class="callout-title">Gratulacje!</div>
+                    StormPHP jest zainstalowany i gotowy do użycia. Przejdź do <a href="getting-started.html">przewodnika Szybki Start</a>, aby zbudować swoją pierwszą aplikację.
+                </div>
+            </section>
+
+            <section>
+                <h2>Rozwiązywanie problemów</h2>
+
+                <h3>Problem: Błąd 500 lub pusta strona</h3>
+                <p><strong>Rozwiązanie:</strong> Sprawdź uprawnienia do katalogów <code>.cache</code> i <code>.logs</code>. Muszą być zapisywalne przez serwer web.</p>
+                <pre><code>chmod -R 755 .cache .logs</code></pre>
+
+                <h3>Problem: Kontrolery nie są wykrywane</h3>
+                <p><strong>Rozwiązanie:</strong> Upewnij się, że:</p>
+                <ul>
+                    <li>Kontrolery znajdują się w katalogu <code>src/</code></li>
+                    <li>Kontrolery mają atrybut <code>#[Controller]</code></li>
+                    <li>Namespace odpowiada strukturze katalogów</li>
+                </ul>
+
+                <h3>Problem: Błędy autoloadingu</h3>
+                <p><strong>Rozwiązanie:</strong> Wykonaj <code>composer dump-autoload</code> lub sprawdź czy ścieżka do autoloadera jest poprawna.</p>
+            </section>
+
+            <section>
+                <h2>Następne kroki</h2>
+                <ul>
+                    <li><a href="getting-started.html">Szybki start</a> - Zbuduj swoją pierwszą aplikację</li>
+                    <li><a href="configuration.html">Konfiguracja</a> - Dowiedz się jak skonfigurować aplikację</li>
+                    <li><a href="routing.html">Routing</a> - Poznaj system routingu</li>
+                    <li><a href="tutorial.html">Tutorial</a> - Pełny przewodnik krok po kroku</li>
+                </ul>
+            </section>
+
+            <div class="docs-nav">
+                <a href="index.html" class="nav-link nav-link-prev">
+                    <span>Wprowadzenie</span>
+                </a>
+                <a href="getting-started.html" class="nav-link nav-link-next">
+                    <span>Szybki start</span>
+                </a>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

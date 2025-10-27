@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentation - StormPHP Framework</title>
+    <link rel="stylesheet" href="docs.css">
+</head>
+<body>
+    <div class="docs-layout">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <a href="../index.html" class="sidebar-logo">⚡ StormPHP</a>
+            </div>
+            <nav>
+                <ul class="sidebar-nav">
+                    <li class="sidebar-section">
+                        <div class="sidebar-section-title">Getting Started</div>
+                        <a href="index.html" class="active">Introduction</a>
+                        <a href="installation.html">Installation</a>
+                        <a href="getting-started.html">Quick Start</a>
+                        <a href="configuration.html">Configuration</a>
+                    </li>
+                    <li class="sidebar-section">
+                        <div class="sidebar-section-title">Core Concepts</div>
+                        <a href="routing.html">Routing</a>
+                        <a href="controllers.html">Controllers</a>
+                        <a href="views.html">Views & Templates</a>
+                        <a href="middleware.html">Middleware</a>
+                        <a href="dependency-injection.html">Dependency Injection</a>
+                    </li>
+                    <li class="sidebar-section">
+                        <div class="sidebar-section-title">Features</div>
+                        <a href="validation.html">Validation & Forms</a>
+                        <a href="i18n.html">Internationalization</a>
+                        <a href="authentication.html">Authentication</a>
+                        <a href="database.html">Database & Queries</a>
+                        <a href="mailing.html">Mailing</a>
+                        <a href="events.html">Events</a>
+                        <a href="cqs.html">Command Query Separation</a>
+                        <a href="cli.html">CLI Tasks</a>
+                    </li>
+                    <li class="sidebar-section">
+                        <div class="sidebar-section-title">Advanced</div>
+                        <a href="caching.html">Caching</a>
+                        <a href="logging.html">Logging</a>
+                        <a href="testing.html">Testing</a>
+                    </li>
+                    <li class="sidebar-section">
+                        <div class="sidebar-section-title">Tutorials</div>
+                        <a href="tutorial.html">Building Your First App</a>
+                        <a href="examples.html">Example Applications</a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="docs-main">
+            <div class="docs-header">
+                <h1 class="docs-title">StormPHP Framework Documentation</h1>
+                <p class="docs-subtitle">Build modern PHP applications with joy and satisfaction</p>
+            </div>
+
+            <section>
+                <h2>Welcome to StormPHP</h2>
+                <p>
+                    StormPHP is a modern, lightweight PHP framework designed to be intuitive, fast, and powerful.
+                    With a minimal footprint of ~100KB and zero dependencies, StormPHP provides all the features
+                    you need to build professional web applications.
+                </p>
+
+                <div class="callout callout-info">
+                    <div class="callout-title">New to StormPHP?</div>
+                    Start with the <a href="getting-started.html">Quick Start Guide</a> to build your first application in minutes.
+                </div>
+            </section>
+
+            <section>
+                <h2>Why StormPHP?</h2>
+                <ul>
+                    <li><strong>Lightweight:</strong> ~100KB footprint with zero dependencies</li>
+                    <li><strong>Fast:</strong> Blazing fast performance with intelligent caching</li>
+                    <li><strong>Modern:</strong> Built for PHP 8+ with attributes, union types, and more</li>
+                    <li><strong>Intuitive:</strong> Easy to learn with clear, consistent APIs</li>
+                    <li><strong>Feature-Rich:</strong> Everything you need: DI, routing, validation, i18n, and more</li>
+                    <li><strong>Developer-Friendly:</strong> Auto-discovery, fluent APIs, and helpful error messages</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Quick Example</h2>
+                <pre><code><span class="keyword">&lt;?php</span>
+<span class="keyword">require</span> <span class="string">'vendor/autoload.php'</span>;
+
+<span class="variable">$app</span> = <span class="class">App</span>::<span class="method">create</span>();
+<span class="variable">$app</span>-><span class="method">addRoute</span>(<span class="string">'/'</span>, <span class="keyword">fn</span>() => <span class="string">"Hello, world!"</span>);
+<span class="variable">$app</span>-><span class="method">run</span>();</code></pre>
+                <p>That's it! You have a working application in just 4 lines of code.</p>
+            </section>
+
+            <section>
+                <h2>Core Features</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Description</th>
+                            <th>Learn More</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Routing</strong></td>
+                            <td>Attribute-based routing with auto-discovery</td>
+                            <td><a href="routing.html">Routing Guide</a></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Controllers</strong></td>
+                            <td>MVC pattern with dependency injection</td>
+                            <td><a href="controllers.html">Controllers Guide</a></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Views</strong></td>
+                            <td>PHP-based templates with layouts</td>
+                            <td><a href="views.html">Views Guide</a></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Validation</strong></td>
+                            <td>23+ built-in validators with fluent API</td>
+                            <td><a href="validation.html">Validation Guide</a></td>
+                        </tr>
+                        <tr>
+                            <td><strong>i18n</strong></td>
+                            <td>Multi-language support with cultures</td>
+                            <td><a href="i18n.html">i18n Guide</a></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Authentication</strong></td>
+                            <td>User authentication and authorization</td>
+                            <td><a href="authentication.html">Auth Guide</a></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Database</strong></td>
+                            <td>Works with StormPHP Queries ORM</td>
+                            <td><a href="database.html">Database Guide</a></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Events</strong></td>
+                            <td>Event dispatcher for decoupled architecture</td>
+                            <td><a href="events.html">Events Guide</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section>
+                <h2>Getting Started</h2>
+                <p>Choose your path to get started with StormPHP:</p>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin: 2rem 0;">
+                    <div style="padding: 1.5rem; background: white; border-radius: 8px; border: 1px solid var(--gray-lighter);">
+                        <h3 style="margin-top: 0;">📦 Installation</h3>
+                        <p>Install StormPHP via Composer or download the ZIP package.</p>
+                        <a href="installation.html" class="btn btn-primary">Install Now</a>
+                    </div>
+
+                    <div style="padding: 1.5rem; background: white; border-radius: 8px; border: 1px solid var(--gray-lighter);">
+                        <h3 style="margin-top: 0;">🚀 Quick Start</h3>
+                        <p>Build your first application in under 5 minutes.</p>
+                        <a href="getting-started.html" class="btn btn-primary">Quick Start</a>
+                    </div>
+
+                    <div style="padding: 1.5rem; background: white; border-radius: 8px; border: 1px solid var(--gray-lighter);">
+                        <h3 style="margin-top: 0;">📚 Tutorial</h3>
+                        <p>Follow a complete step-by-step tutorial to build a real application.</p>
+                        <a href="tutorial.html" class="btn btn-primary">Start Tutorial</a>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2>Community & Support</h2>
+                <ul>
+                    <li><strong>GitHub:</strong> <a href="https://github.com/stormmore/framework" target="_blank">View the source code</a></li>
+                    <li><strong>Issues:</strong> <a href="https://github.com/stormmore/framework/issues" target="_blank">Report bugs or request features</a></li>
+                    <li><strong>Discussions:</strong> <a href="https://github.com/stormmore/framework/discussions" target="_blank">Ask questions and share ideas</a></li>
+                </ul>
+            </section>
+
+            <div class="docs-nav">
+                <span></span>
+                <a href="installation.html" class="nav-link nav-link-next">
+                    <span>Installation</span>
+                </a>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

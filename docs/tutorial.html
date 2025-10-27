@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutorial - Budowa aplikacji - StormPHP Framework</title>
+    <link rel="stylesheet" href="docs.css">
+</head>
+<body>
+    <div class="docs-layout">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <a href="../index.html" class="sidebar-logo">⚡ StormPHP</a>
+            </div>
+            <nav>
+                <ul class="sidebar-nav">
+                    <li class="sidebar-section">
+                        <div class="sidebar-section-title">Wprowadzenie</div>
+                        <a href="index.html">Wprowadzenie</a>
+                        <a href="installation.html">Instalacja</a>
+                        <a href="getting-started.html">Szybki start</a>
+                    </li>
+                    <li class="sidebar-section">
+                        <div class="sidebar-section-title">Samouczki</div>
+                        <a href="tutorial.html" class="active">Budowa pierwszej aplikacji</a>
+                        <a href="examples.html">Przykłady</a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="docs-main">
+            <div class="docs-header">
+                <h1 class="docs-title">Tutorial: Budowa aplikacji TODO</h1>
+                <p class="docs-subtitle">Kompletny przewodnik tworzenia aplikacji web z użyciem StormPHP</p>
+            </div>
+
+            <section>
+                <h2>Czego się nauczysz</h2>
+                <p>W tym tutorialu zbudujesz pełnofunkcjonalną aplikację TODO list z następującymi funkcjami:</p>
+                <ul>
+                    <li>Kontrolery i routing</li>
+                    <li>Widoki z layoutami</li>
+                    <li>Obsługa formularzy</li>
+                    <li>Walidacja danych</li>
+                    <li>Dependency Injection</li>
+                    <li>Sesje i flash messages</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Część 1: Konfiguracja projektu</h2>
+
+                <h3>Krok 1.1: Instalacja</h3>
+                <pre><code>composer require stormmore/framework
+mkdir -p public_html src/{Controllers,Services,templates}</code></pre>
+
+                <h3>Krok 1.2: Punkt wejścia (public_html/index.php)</h3>
+                <pre><code><span class="keyword">&lt;?php</span>
+<span class="keyword">require</span> <span class="string">'../vendor/autoload.php'</span>;
+
+<span class="keyword">use</span> <span class="class">Stormmore\Framework\App</span>;
+
+<span class="variable">$app</span> = <span class="class">App</span>::<span class="method">create</span>(directories: [
+    <span class="string">'project'</span> => <span class="string">'../'</span>,
+    <span class="string">'source'</span>  => <span class="string">'../src'</span>,
+    <span class="string">'cache'</span>   => <span class="string">'../.cache'</span>,
+    <span class="string">'templates'</span> => <span class="string">'../src/templates'</span>
+]);
+
+<span class="variable">$app</span>-><span class="method">run</span>();</code></pre>
+            </section>
+
+            <section>
+                <h2>Część 2: Model danych</h2>
+
+                <h3>Krok 2.1: Klasa Task (src/Task.php)</h3>
+                <pre><code><span class="keyword">&lt;?php</span>
+<span class="keyword">namespace</span> <span class="class">App</span>;
+
+<span class="keyword">class</span> <span class="class">Task</span>
+{
+    <span class="keyword">public function</span> <span class="method">__construct</span>(
+        <span class="keyword">public</span> <span class="keyword">int</span> <span class="variable">$id</span>,
+        <span class="keyword">public</span> <span class="keyword">string</span> <span class="variable">$title</span>,
+        <span class="keyword">public</span> <span class="keyword">string</span> <span class="variable">$description</span>,
+        <span class="keyword">public</span> <span class="keyword">bool</span> <span class="variable">$completed</span> = <span class="keyword">false</span>
+    ) {}
+}</code></pre>
+
+                <h3>Krok 2.2: TaskService (src/Services/TaskService.php)</h3>
+                <pre><code><span class="keyword">&lt;?php</span>
+<span class="keyword">namespace</span> <span class="class">App\Services</span>;
+
+<span class="keyword">use</span> <span class="class">App\Task</span>;
+
+<span class="keyword">class</span> <span class="class">TaskService</span>
+{
+    <span class="keyword">private</span> <span class="keyword">array</span> <span class="variable">$tasks</span> = [];
+    <span class="keyword">private</span> <span class="keyword">int</span> <span class="variable">$nextId</span> = <span class="number">1</span>;
+
+    <span class="keyword">public function</span> <span class="method">__construct</span>()
+    {
+        <span class="comment">// Inicjalizacja z przykładowymi danymi</span>
+        <span class="keyword">if</span> (!<span class="function">isset</span>(<span class="variable">$_SESSION</span>[<span class="string">'tasks'</span>])) {
+            <span class="variable">$_SESSION</span>[<span class="string">'tasks'</span>] = [
+                <span class="keyword">new</span> <span class="class">Task</span>(<span class="number">1</span>, <span class="string">'Poznaj StormPHP'</span>, <span class="string">'Przeczytaj dokumentację'</span>, <span class="keyword">true</span>),
+                <span class="keyword">new</span> <span class="class">Task</span>(<span class="number">2</span>, <span class="string">'Zbuduj aplikację'</span>, <span class="string">'Stwórz swoją pierwszą aplikację'</span>),
+            ];
+            <span class="variable">$_SESSION</span>[<span class="string">'nextId'</span>] = <span class="number">3</span>;
+        }
+
+        <span class="variable">$this</span>-><span class="attribute">tasks</span> = &<span class="variable">$_SESSION</span>[<span class="string">'tasks'</span>];
+        <span class="variable">$this</span>-><span class="attribute">nextId</span> = &<span class="variable">$_SESSION</span>[<span class="string">'nextId'</span>];
+    }
+
+    <span class="keyword">public function</span> <span class="method">getAll</span>(): <span class="keyword">array</span>
+    {
+        <span class="keyword">return</span> <span class="variable">$this</span>-><span class="attribute">tasks</span>;
+    }
+
+    <span class="keyword">public function</span> <span class="method">getById</span>(<span class="keyword">int</span> <span class="variable">$id</span>): ?<span class="class">Task</span>
+    {
+        <span class="keyword">foreach</span> (<span class="variable">$this</span>-><span class="attribute">tasks</span> <span class="keyword">as</span> <span class="variable">$task</span>) {
+            <span class="keyword">if</span> (<span class="variable">$task</span>-><span class="attribute">id</span> === <span class="variable">$id</span>) {
+                <span class="keyword">return</span> <span class="variable">$task</span>;
+            }
+        }
+        <span class="keyword">return</span> <span class="keyword">null</span>;
+    }
+
+    <span class="keyword">public function</span> <span class="method">create</span>(<span class="keyword">string</span> <span class="variable">$title</span>, <span class="keyword">string</span> <span class="variable">$description</span>): <span class="class">Task</span>
+    {
+        <span class="variable">$task</span> = <span class="keyword">new</span> <span class="class">Task</span>(<span class="variable">$this</span>-><span class="attribute">nextId</span>++, <span class="variable">$title</span>, <span class="variable">$description</span>);
+        <span class="variable">$this</span>-><span class="attribute">tasks</span>[] = <span class="variable">$task</span>;
+        <span class="keyword">return</span> <span class="variable">$task</span>;
+    }
+
+    <span class="keyword">public function</span> <span class="method">toggleComplete</span>(<span class="keyword">int</span> <span class="variable">$id</span>): <span class="keyword">bool</span>
+    {
+        <span class="variable">$task</span> = <span class="variable">$this</span>-><span class="method">getById</span>(<span class="variable">$id</span>);
+        <span class="keyword">if</span> (<span class="variable">$task</span>) {
+            <span class="variable">$task</span>-><span class="attribute">completed</span> = !<span class="variable">$task</span>-><span class="attribute">completed</span>;
+            <span class="keyword">return</span> <span class="keyword">true</span>;
+        }
+        <span class="keyword">return</span> <span class="keyword">false</span>;
+    }
+
+    <span class="keyword">public function</span> <span class="method">delete</span>(<span class="keyword">int</span> <span class="variable">$id</span>): <span class="keyword">bool</span>
+    {
+        <span class="keyword">foreach</span> (<span class="variable">$this</span>-><span class="attribute">tasks</span> <span class="keyword">as</span> <span class="variable">$index</span> => <span class="variable">$task</span>) {
+            <span class="keyword">if</span> (<span class="variable">$task</span>-><span class="attribute">id</span> === <span class="variable">$id</span>) {
+                <span class="function">array_splice</span>(<span class="variable">$this</span>-><span class="attribute">tasks</span>, <span class="variable">$index</span>, <span class="number">1</span>);
+                <span class="keyword">return</span> <span class="keyword">true</span>;
+            }
+        }
+        <span class="keyword">return</span> <span class="keyword">false</span>;
+    }
+}</code></pre>
+            </section>
+
+            <section>
+                <h2>Część 3: Kontroler</h2>
+
+                <h3>Krok 3.1: TaskController (src/Controllers/TaskController.php)</h3>
+                <pre><code><span class="keyword">&lt;?php</span>
+<span class="keyword">namespace</span> <span class="class">App\Controllers</span>;
+
+<span class="keyword">use</span> <span class="class">App\Services\TaskService</span>;
+<span class="keyword">use</span> <span class="class">Stormmore\Framework\Mvc\Attributes\Controller</span>;
+<span class="keyword">use</span> <span class="class">Stormmore\Framework\Mvc\Attributes\Route</span>;
+<span class="keyword">use</span> <span class="class">Stormmore\Framework\Mvc\Attributes\Get</span>;
+<span class="keyword">use</span> <span class="class">Stormmore\Framework\Mvc\Attributes\Post</span>;
+<span class="keyword">use</span> <span class="class">Stormmore\Framework\Mvc\View\View</span>;
+<span class="keyword">use</span> <span class="class">Stormmore\Framework\Mvc\Redirect</span>;
+<span class="keyword">use</span> <span class="class">Stormmore\Framework\Mvc\Request</span>;
+<span class="keyword">use</span> <span class="class">Stormmore\Framework\Validation\Validator</span>;
+
+<span class="attribute">#[Controller]</span>
+<span class="keyword">readonly class</span> <span class="class">TaskController</span>
+{
+    <span class="keyword">public function</span> <span class="method">__construct</span>(
+        <span class="keyword">private</span> <span class="class">TaskService</span> <span class="variable">$taskService</span>
+    ) {
+        <span class="comment">// Rozpocznij sesję jeśli nie rozpoczęta</span>
+        <span class="keyword">if</span> (<span class="function">session_status</span>() === <span class="class">PHP_SESSION_NONE</span>) {
+            <span class="function">session_start</span>();
+        }
+    }
+
+    <span class="attribute">#[Get]</span>
+    <span class="attribute">#[Route(<span class="string">"/"</span>)]</span>
+    <span class="keyword">public function</span> <span class="method">index</span>(): <span class="class">View</span>
+    {
+        <span class="keyword">return</span> <span class="function">view</span>(<span class="string">"@templates/tasks/index"</span>, [
+            <span class="string">'tasks'</span> => <span class="variable">$this</span>-><span class="attribute">taskService</span>-><span class="method">getAll</span>()
+        ]);
+    }
+
+    <span class="attribute">#[Get]</span>
+    <span class="attribute">#[Route(<span class="string">"/tasks/create"</span>)]</span>
+    <span class="keyword">public function</span> <span class="method">create</span>(): <span class="class">View</span>
+    {
+        <span class="keyword">return</span> <span class="function">view</span>(<span class="string">"@templates/tasks/create"</span>);
+    }
+
+    <span class="attribute">#[Post]</span>
+    <span class="attribute">#[Route(<span class="string">"/tasks"</span>)]</span>
+    <span class="keyword">public function</span> <span class="method">store</span>(<span class="class">Request</span> <span class="variable">$request</span>): <span class="class">Redirect</span>|<span class="class">View</span>
+    {
+        <span class="comment">// Walidacja</span>
+        <span class="variable">$validator</span> = <span class="class">Validator</span>::<span class="method">create</span>()
+            -><span class="method">field</span>(<span class="string">'title'</span>, <span class="keyword">fn</span>(<span class="variable">$f</span>) => <span class="variable">$f</span>-><span class="method">required</span>()-><span class="method">minLength</span>(<span class="number">3</span>))
+            -><span class="method">field</span>(<span class="string">'description'</span>, <span class="keyword">fn</span>(<span class="variable">$f</span>) => <span class="variable">$f</span>-><span class="method">required</span>());
+
+        <span class="variable">$result</span> = <span class="variable">$validator</span>-><span class="method">validate</span>([
+            <span class="string">'title'</span> => <span class="variable">$request</span>-><span class="method">post</span>(<span class="string">'title'</span>),
+            <span class="string">'description'</span> => <span class="variable">$request</span>-><span class="method">post</span>(<span class="string">'description'</span>)
+        ]);
+
+        <span class="keyword">if</span> (!<span class="variable">$result</span>-><span class="method">isValid</span>()) {
+            <span class="keyword">return</span> <span class="function">view</span>(<span class="string">"@templates/tasks/create"</span>, [
+                <span class="string">'errors'</span> => <span class="variable">$result</span>-><span class="method">getErrors</span>(),
+                <span class="string">'old'</span> => <span class="variable">$request</span>-><span class="attribute">post</span>
+            ]);
+        }
+
+        <span class="comment">// Utwórz zadanie</span>
+        <span class="variable">$this</span>-><span class="attribute">taskService</span>-><span class="method">create</span>(
+            <span class="variable">$request</span>-><span class="method">post</span>(<span class="string">'title'</span>),
+            <span class="variable">$request</span>-><span class="method">post</span>(<span class="string">'description'</span>)
+        );
+
+        <span class="keyword">return</span> <span class="function">redirect</span>(<span class="string">'/'</span>)
+            -><span class="method">message</span>(<span class="string">'Zadanie zostało dodane!'</span>);
+    }
+
+    <span class="attribute">#[Post]</span>
+    <span class="attribute">#[Route(<span class="string">"/tasks/:id/toggle"</span>)]</span>
+    <span class="keyword">public function</span> <span class="method">toggle</span>(<span class="keyword">int</span> <span class="variable">$id</span>): <span class="class">Redirect</span>
+    {
+        <span class="variable">$this</span>-><span class="attribute">taskService</span>-><span class="method">toggleComplete</span>(<span class="variable">$id</span>);
+        <span class="keyword">return</span> <span class="function">redirect</span>(<span class="string">'/'</span>);
+    }
+
+    <span class="attribute">#[Post]</span>
+    <span class="attribute">#[Route(<span class="string">"/tasks/:id/delete"</span>)]</span>
+    <span class="keyword">public function</span> <span class="method">delete</span>(<span class="keyword">int</span> <span class="variable">$id</span>): <span class="class">Redirect</span>
+    {
+        <span class="variable">$this</span>-><span class="attribute">taskService</span>-><span class="method">delete</span>(<span class="variable">$id</span>);
+        <span class="keyword">return</span> <span class="function">redirect</span>(<span class="string">'/'</span>)
+            -><span class="method">message</span>(<span class="string">'Zadanie zostało usunięte.'</span>);
+    }
+}</code></pre>
+
+                <div class="callout callout-info">
+                    <div class="callout-title">Dependency Injection</div>
+                    Zauważ, że <code>TaskService</code> jest automatycznie wstrzykiwany do konstruktora kontrolera. StormPHP automatycznie rozwiązuje zależności.
+                </div>
+            </section>
+
+            <section>
+                <h2>Część 4: Widoki</h2>
+
+                <h3>Krok 4.1: Layout (src/templates/layout.php)</h3>
+                <pre><code><span class="keyword">&lt;!DOCTYPE html&gt;</span>
+<span class="keyword">&lt;html</span> <span class="attribute">lang</span>=<span class="string">"pl"</span><span class="keyword">&gt;</span>
+<span class="keyword">&lt;head&gt;</span>
+    <span class="keyword">&lt;meta</span> <span class="attribute">charset</span>=<span class="string">"UTF-8"</span><span class="keyword">&gt;</span>
+    <span class="keyword">&lt;meta</span> <span class="attribute">name</span>=<span class="string">"viewport"</span> <span class="attribute">content</span>=<span class="string">"width=device-width, initial-scale=1.0"</span><span class="keyword">&gt;</span>
+    <span class="keyword">&lt;?php</span> <span class="variable">$view</span>-&gt;<span class="method">printTitle</span>(<span class="string">"TODO App"</span>); <span class="keyword">?&gt;</span>
+    <span class="keyword">&lt;style&gt;</span>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; background: #f5f5f5; }
+        .container { max-width: 800px; margin: 0 auto; padding: 2rem; }
+        header { background: #6366f1; color: white; padding: 2rem; text-align: center; }
+        .card { background: white; padding: 2rem; border-radius: 8px; margin: 1rem 0; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .btn { padding: 0.5rem 1rem; background: #6366f1; color: white; border: none; border-radius: 4px; cursor: pointer; text-decoration: none; display: inline-block; }
+        .btn:hover { background: #4f46e5; }
+        .btn-danger { background: #ef4444; }
+        .btn-danger:hover { background: #dc2626; }
+        .form-group { margin-bottom: 1rem; }
+        .form-group label { display: block; margin-bottom: 0.5rem; font-weight: bold; }
+        .form-group input, .form-group textarea { width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px; }
+        .error { color: #ef4444; font-size: 0.875rem; margin-top: 0.25rem; }
+        .message { background: #10b981; color: white; padding: 1rem; border-radius: 4px; margin-bottom: 1rem; }
+        .task { display: flex; align-items: center; padding: 1rem; border-bottom: 1px solid #eee; }
+        .task:last-child { border-bottom: none; }
+        .task.completed { opacity: 0.6; }
+        .task.completed .task-title { text-decoration: line-through; }
+        .task-content { flex: 1; }
+        .task-title { font-weight: bold; margin-bottom: 0.25rem; }
+        .task-actions { display: flex; gap: 0.5rem; }
+    <span class="keyword">&lt;/style&gt;</span>
+<span class="keyword">&lt;/head&gt;</span>
+<span class="keyword">&lt;body&gt;</span>
+    <span class="keyword">&lt;header&gt;</span>
+        <span class="keyword">&lt;h1&gt;</span>⚡ TODO App - StormPHP<span class="keyword">&lt;/h1&gt;</span>
+    <span class="keyword">&lt;/header&gt;</span>
+
+    <span class="keyword">&lt;div</span> <span class="attribute">class</span>=<span class="string">"container"</span><span class="keyword">&gt;</span>
+        <span class="keyword">&lt;?=</span> <span class="variable">$view</span>-&gt;<span class="attribute">content</span> <span class="keyword">?&gt;</span>
+    <span class="keyword">&lt;/div&gt;</span>
+<span class="keyword">&lt;/body&gt;</span>
+<span class="keyword">&lt;/html&gt;</span></code></pre>
+
+                <h3>Krok 4.2: Lista zadań (src/templates/tasks/index.php)</h3>
+                <pre><code><span class="keyword">&lt;?php</span> <span class="variable">$view</span>-&gt;<span class="method">useLayout</span>(<span class="string">'@templates/layout'</span>); <span class="keyword">?&gt;</span>
+<span class="keyword">&lt;?php</span> <span class="variable">$view</span>-&gt;<span class="method">setTitle</span>(<span class="string">'Lista zadań'</span>); <span class="keyword">?&gt;</span>
+
+<span class="keyword">&lt;?php</span> <span class="keyword">if</span> (<span class="variable">$response</span>-&gt;<span class="method">hasMessage</span>()): <span class="keyword">?&gt;</span>
+    <span class="keyword">&lt;div</span> <span class="attribute">class</span>=<span class="string">"message"</span><span class="keyword">&gt;</span>
+        <span class="keyword">&lt;?=</span> <span class="variable">$response</span>-&gt;<span class="method">getMessage</span>() <span class="keyword">?&gt;</span>
+    <span class="keyword">&lt;/div&gt;</span>
+<span class="keyword">&lt;?php</span> <span class="keyword">endif</span>; <span class="keyword">?&gt;</span>
+
+<span class="keyword">&lt;div</span> <span class="attribute">class</span>=<span class="string">"card"</span><span class="keyword">&gt;</span>
+    <span class="keyword">&lt;h2&gt;</span>Moje zadania<span class="keyword">&lt;/h2&gt;</span>
+    <span class="keyword">&lt;p&gt;</span><span class="keyword">&lt;a</span> <span class="attribute">href</span>=<span class="string">"/tasks/create"</span> <span class="attribute">class</span>=<span class="string">"btn"</span><span class="keyword">&gt;</span>➕ Dodaj nowe zadanie<span class="keyword">&lt;/a&gt;</span><span class="keyword">&lt;/p&gt;</span>
+<span class="keyword">&lt;/div&gt;</span>
+
+<span class="keyword">&lt;div</span> <span class="attribute">class</span>=<span class="string">"card"</span><span class="keyword">&gt;</span>
+    <span class="keyword">&lt;?php</span> <span class="keyword">if</span> (<span class="function">empty</span>(<span class="variable">$tasks</span>)): <span class="keyword">?&gt;</span>
+        <span class="keyword">&lt;p&gt;</span>Brak zadań. Dodaj swoje pierwsze zadanie!<span class="keyword">&lt;/p&gt;</span>
+    <span class="keyword">&lt;?php</span> <span class="keyword">else</span>: <span class="keyword">?&gt;</span>
+        <span class="keyword">&lt;?php</span> <span class="keyword">foreach</span> (<span class="variable">$tasks</span> <span class="keyword">as</span> <span class="variable">$task</span>): <span class="keyword">?&gt;</span>
+            <span class="keyword">&lt;div</span> <span class="attribute">class</span>=<span class="string">"task <span class="keyword">&lt;?=</span> <span class="variable">$task</span>-&gt;<span class="attribute">completed</span> ? <span class="string">'completed'</span> : <span class="string">''</span> <span class="keyword">?&gt;</span>"</span><span class="keyword">&gt;</span>
+                <span class="keyword">&lt;div</span> <span class="attribute">class</span>=<span class="string">"task-content"</span><span class="keyword">&gt;</span>
+                    <span class="keyword">&lt;div</span> <span class="attribute">class</span>=<span class="string">"task-title"</span><span class="keyword">&gt;</span><span class="keyword">&lt;?=</span> <span class="function">htmlspecialchars</span>(<span class="variable">$task</span>-&gt;<span class="attribute">title</span>) <span class="keyword">?&gt;</span><span class="keyword">&lt;/div&gt;</span>
+                    <span class="keyword">&lt;div</span> <span class="attribute">class</span>=<span class="string">"task-description"</span><span class="keyword">&gt;</span><span class="keyword">&lt;?=</span> <span class="function">htmlspecialchars</span>(<span class="variable">$task</span>-&gt;<span class="attribute">description</span>) <span class="keyword">?&gt;</span><span class="keyword">&lt;/div&gt;</span>
+                <span class="keyword">&lt;/div&gt;</span>
+                <span class="keyword">&lt;div</span> <span class="attribute">class</span>=<span class="string">"task-actions"</span><span class="keyword">&gt;</span>
+                    <span class="keyword">&lt;form</span> <span class="attribute">method</span>=<span class="string">"post"</span> <span class="attribute">action</span>=<span class="string">"/tasks/<span class="keyword">&lt;?=</span> <span class="variable">$task</span>-&gt;<span class="attribute">id</span> <span class="keyword">?&gt;</span>/toggle"</span><span class="keyword">&gt;</span>
+                        <span class="keyword">&lt;button</span> <span class="attribute">class</span>=<span class="string">"btn"</span><span class="keyword">&gt;</span><span class="keyword">&lt;?=</span> <span class="variable">$task</span>-&gt;<span class="attribute">completed</span> ? <span class="string">'↩️'</span> : <span class="string">'✓'</span> <span class="keyword">?&gt;</span><span class="keyword">&lt;/button&gt;</span>
+                    <span class="keyword">&lt;/form&gt;</span>
+                    <span class="keyword">&lt;form</span> <span class="attribute">method</span>=<span class="string">"post"</span> <span class="attribute">action</span>=<span class="string">"/tasks/<span class="keyword">&lt;?=</span> <span class="variable">$task</span>-&gt;<span class="attribute">id</span> <span class="keyword">?&gt;</span>/delete"</span><span class="keyword">&gt;</span>
+                        <span class="keyword">&lt;button</span> <span class="attribute">class</span>=<span class="string">"btn btn-danger"</span><span class="keyword">&gt;</span>🗑️<span class="keyword">&lt;/button&gt;</span>
+                    <span class="keyword">&lt;/form&gt;</span>
+                <span class="keyword">&lt;/div&gt;</span>
+            <span class="keyword">&lt;/div&gt;</span>
+        <span class="keyword">&lt;?php</span> <span class="keyword">endforeach</span>; <span class="keyword">?&gt;</span>
+    <span class="keyword">&lt;?php</span> <span class="keyword">endif</span>; <span class="keyword">?&gt;</span>
+<span class="keyword">&lt;/div&gt;</span></code></pre>
+
+                <h3>Krok 4.3: Formularz dodawania (src/templates/tasks/create.php)</h3>
+                <pre><code><span class="keyword">&lt;?php</span> <span class="variable">$view</span>-&gt;<span class="method">useLayout</span>(<span class="string">'@templates/layout'</span>); <span class="keyword">?&gt;</span>
+<span class="keyword">&lt;?php</span> <span class="variable">$view</span>-&gt;<span class="method">setTitle</span>(<span class="string">'Dodaj zadanie'</span>); <span class="keyword">?&gt;</span>
+
+<span class="keyword">&lt;div</span> <span class="attribute">class</span>=<span class="string">"card"</span><span class="keyword">&gt;</span>
+    <span class="keyword">&lt;h2&gt;</span>Dodaj nowe zadanie<span class="keyword">&lt;/h2&gt;</span>
+
+    <span class="keyword">&lt;form</span> <span class="attribute">method</span>=<span class="string">"post"</span> <span class="attribute">action</span>=<span class="string">"/tasks"</span><span class="keyword">&gt;</span>
+        <span class="keyword">&lt;div</span> <span class="attribute">class</span>=<span class="string">"form-group"</span><span class="keyword">&gt;</span>
+            <span class="keyword">&lt;label&gt;</span>Tytuł:<span class="keyword">&lt;/label&gt;</span>
+            <span class="keyword">&lt;input</span> <span class="attribute">type</span>=<span class="string">"text"</span> <span class="attribute">name</span>=<span class="string">"title"</span> <span class="attribute">value</span>=<span class="string">"<span class="keyword">&lt;?=</span> <span class="variable">$old</span>[<span class="string">'title'</span>] ?? <span class="string">''</span> <span class="keyword">?&gt;</span>"</span><span class="keyword">&gt;</span>
+            <span class="keyword">&lt;?php</span> <span class="keyword">if</span> (<span class="function">isset</span>(<span class="variable">$errors</span>[<span class="string">'title'</span>])): <span class="keyword">?&gt;</span>
+                <span class="keyword">&lt;div</span> <span class="attribute">class</span>=<span class="string">"error"</span><span class="keyword">&gt;</span><span class="keyword">&lt;?=</span> <span class="variable">$errors</span>[<span class="string">'title'</span>][<span class="number">0</span>] <span class="keyword">?&gt;</span><span class="keyword">&lt;/div&gt;</span>
+            <span class="keyword">&lt;?php</span> <span class="keyword">endif</span>; <span class="keyword">?&gt;</span>
+        <span class="keyword">&lt;/div&gt;</span>
+
+        <span class="keyword">&lt;div</span> <span class="attribute">class</span>=<span class="string">"form-group"</span><span class="keyword">&gt;</span>
+            <span class="keyword">&lt;label&gt;</span>Opis:<span class="keyword">&lt;/label&gt;</span>
+            <span class="keyword">&lt;textarea</span> <span class="attribute">name</span>=<span class="string">"description"</span> <span class="attribute">rows</span>=<span class="string">"4"</span><span class="keyword">&gt;</span><span class="keyword">&lt;?=</span> <span class="variable">$old</span>[<span class="string">'description'</span>] ?? <span class="string">''</span> <span class="keyword">?&gt;</span><span class="keyword">&lt;/textarea&gt;</span>
+            <span class="keyword">&lt;?php</span> <span class="keyword">if</span> (<span class="function">isset</span>(<span class="variable">$errors</span>[<span class="string">'description'</span>])): <span class="keyword">?&gt;</span>
+                <span class="keyword">&lt;div</span> <span class="attribute">class</span>=<span class="string">"error"</span><span class="keyword">&gt;</span><span class="keyword">&lt;?=</span> <span class="variable">$errors</span>[<span class="string">'description'</span>][<span class="number">0</span>] <span class="keyword">?&gt;</span><span class="keyword">&lt;/div&gt;</span>
+            <span class="keyword">&lt;?php</span> <span class="keyword">endif</span>; <span class="keyword">?&gt;</span>
+        <span class="keyword">&lt;/div&gt;</span>
+
+        <span class="keyword">&lt;button</span> <span class="attribute">type</span>=<span class="string">"submit"</span> <span class="attribute">class</span>=<span class="string">"btn"</span><span class="keyword">&gt;</span>Dodaj zadanie<span class="keyword">&lt;/button&gt;</span>
+        <span class="keyword">&lt;a</span> <span class="attribute">href</span>=<span class="string">"/"</span> <span class="attribute">class</span>=<span class="string">"btn"</span> <span class="attribute">style</span>=<span class="string">"background: #6b7280;"</span><span class="keyword">&gt;</span>Anuluj<span class="keyword">&lt;/a&gt;</span>
+    <span class="keyword">&lt;/form&gt;</span>
+<span class="keyword">&lt;/div&gt;</span></code></pre>
+            </section>
+
+            <section>
+                <h2>Część 5: Uruchomienie</h2>
+
+                <p>Uruchom aplikację:</p>
+                <pre><code>cd public_html
+php -S localhost:8000</code></pre>
+
+                <p>Otwórz <code>http://localhost:8000</code> w przeglądarce!</p>
+
+                <div class="callout callout-success">
+                    <div class="callout-title">Gratulacje!</div>
+                    Stworzyłeś pełnofunkcjonalną aplikację TODO z użyciem StormPHP! Aplikacja zawiera:
+                    <ul>
+                        <li>✓ Kontrolery z dependency injection</li>
+                        <li>✓ Routing z parametrami</li>
+                        <li>✓ Widoki z layoutami</li>
+                        <li>✓ Walidację formularzy</li>
+                        <li>✓ Obsługę sesji</li>
+                        <li>✓ Flash messages</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section>
+                <h2>Rozszerzanie aplikacji</h2>
+
+                <h3>Dodaj bazę danych</h3>
+                <p>Zintegruj <strong>StormPHP Queries</strong> dla persystencji danych:</p>
+                <pre><code>composer require stormmore/queries</code></pre>
+
+                <h3>Dodaj uwierzytelnianie</h3>
+                <p>Wykorzystaj system uwierzytelniania StormPHP z atrybutami <code>#[Authenticate]</code> i <code>#[Authorize]</code>.</p>
+
+                <h3>Dodaj internacjonalizację</h3>
+                <p>Dodaj obsługę wielu języków używając systemu i18n:</p>
+                <pre><code><span class="variable">$app</span>-><span class="method">addMiddleware</span>(<span class="class">LanguageMiddleware</span>::<span class="keyword">class</span>);</code></pre>
+
+                <h3>Dodaj API</h3>
+                <p>Stwórz RESTful API zwracając tablice/obiekty z kontrolerów - StormPHP automatycznie serializuje do JSON.</p>
+            </section>
+
+            <section>
+                <h2>Podsumowanie</h2>
+                <p>W tym tutorialu nauczyłeś się:</p>
+                <ul>
+                    <li>Jak skonfigurować projekt StormPHP</li>
+                    <li>Jak tworzyć kontrolery z dependency injection</li>
+                    <li>Jak definiować routes używając atrybutów</li>
+                    <li>Jak tworzyć widoki z layoutami</li>
+                    <li>Jak walidować dane formularzy</li>
+                    <li>Jak korzystać z serwisów i logiki biznesowej</li>
+                </ul>
+
+                <p>Teraz jesteś gotowy aby budować własne aplikacje web z StormPHP!</p>
+            </section>
+
+            <div class="docs-nav">
+                <a href="getting-started.html" class="nav-link nav-link-prev">
+                    <span>Szybki start</span>
+                </a>
+                <a href="index.html" class="nav-link nav-link-next">
+                    <span>Dokumentacja</span>
+                </a>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Szybki start - StormPHP Framework</title>
+    <link rel="stylesheet" href="docs.css">
+</head>
+<body>
+    <div class="docs-layout">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <a href="../index.html" class="sidebar-logo">⚡ StormPHP</a>
+            </div>
+            <nav>
+                <ul class="sidebar-nav">
+                    <li class="sidebar-section">
+                        <div class="sidebar-section-title">Wprowadzenie</div>
+                        <a href="index.html">Wprowadzenie</a>
+                        <a href="installation.html">Instalacja</a>
+                        <a href="getting-started.html" class="active">Szybki start</a>
+                        <a href="configuration.html">Konfiguracja</a>
+                    </li>
+                    <li class="sidebar-section">
+                        <div class="sidebar-section-title">Podstawy</div>
+                        <a href="routing.html">Routing</a>
+                        <a href="controllers.html">Kontrolery</a>
+                        <a href="views.html">Widoki i szablony</a>
+                        <a href="middleware.html">Middleware</a>
+                        <a href="dependency-injection.html">Dependency Injection</a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="docs-main">
+            <div class="docs-header">
+                <h1 class="docs-title">Szybki start</h1>
+                <p class="docs-subtitle">Zbuduj swoją pierwszą aplikację w StormPHP w 5 minut</p>
+            </div>
+
+            <section>
+                <h2>Twoja pierwsza aplikacja</h2>
+                <p>W tym przewodniku nauczysz się jak stworzyć prostą aplikację web z kontrolerami, widokami i routingiem.</p>
+            </section>
+
+            <section>
+                <h2>Krok 1: Instalacja</h2>
+                <p>Jeśli jeszcze nie zainstalowałeś StormPHP, zacznij od instalacji przez Composer:</p>
+                <pre><code>composer require stormmore/framework</code></pre>
+                <p>Pełne instrukcje instalacji znajdziesz w <a href="installation.html">przewodniku instalacji</a>.</p>
+            </section>
+
+            <section>
+                <h2>Krok 2: Struktura projektu</h2>
+                <p>Utwórz następującą strukturę katalogów:</p>
+                <pre><code>my_app/
+├── public_html/
+│   └── index.php        # Punkt wejścia
+├── src/
+│   ├── Controllers/
+│   │   └── HomeController.php
+│   └── templates/
+│       ├── layout.php
+│       └── home.php
+└── composer.json</code></pre>
+            </section>
+
+            <section>
+                <h2>Krok 3: Punkt wejścia (index.php)</h2>
+                <p>Utwórz plik <code>public_html/index.php</code>:</p>
+                <pre><code><span class="keyword">&lt;?php</span>
+<span class="keyword">require</span> <span class="string">'../vendor/autoload.php'</span>;
+
+<span class="keyword">use</span> <span class="class">Stormmore\Framework\App</span>;
+
+<span class="variable">$app</span> = <span class="class">App</span>::<span class="method">create</span>(directories: [
+    <span class="string">'project'</span> => <span class="string">'../'</span>,
+    <span class="string">'source'</span>  => <span class="string">'../src'</span>,
+    <span class="string">'templates'</span> => <span class="string">'../src/templates'</span>
+]);
+
+<span class="variable">$app</span>-><span class="method">run</span>();</code></pre>
+            </section>
+
+            <section>
+                <h2>Krok 4: Pierwszy kontroler</h2>
+                <p>Utwórz plik <code>src/Controllers/HomeController.php</code>:</p>
+                <pre><code><span class="keyword">&lt;?php</span>
+<span class="keyword">namespace</span> <span class="class">App\Controllers</span>;
+
+<span class="keyword">use</span> <span class="class">Stormmore\Framework\Mvc\Attributes\Controller</span>;
+<span class="keyword">use</span> <span class="class">Stormmore\Framework\Mvc\Attributes\Route</span>;
+<span class="keyword">use</span> <span class="class">Stormmore\Framework\Mvc\Attributes\Get</span>;
+<span class="keyword">use</span> <span class="class">Stormmore\Framework\Mvc\View\View</span>;
+
+<span class="attribute">#[Controller]</span>
+<span class="keyword">readonly class</span> <span class="class">HomeController</span>
+{
+    <span class="attribute">#[Get]</span>
+    <span class="attribute">#[Route(<span class="string">"/"</span>)]</span>
+    <span class="keyword">public function</span> <span class="method">index</span>(): <span class="class">View</span>
+    {
+        <span class="keyword">return</span> <span class="function">view</span>(<span class="string">"@templates/home"</span>, [
+            <span class="string">'title'</span> => <span class="string">'Witaj w StormPHP!'</span>,
+            <span class="string">'message'</span> => <span class="string">'To jest Twoja pierwsza aplikacja.'</span>
+        ]);
+    }
+
+    <span class="attribute">#[Get]</span>
+    <span class="attribute">#[Route(<span class="string">"/about"</span>)]</span>
+    <span class="keyword">public function</span> <span class="method">about</span>(): <span class="class">View</span>
+    {
+        <span class="keyword">return</span> <span class="function">view</span>(<span class="string">"@templates/about"</span>);
+    }
+}</code></pre>
+
+                <div class="callout callout-info">
+                    <div class="callout-title">Atrybut #[Controller]</div>
+                    Atrybut <code>#[Controller]</code> informuje StormPHP, że ta klasa jest kontrolerem. Framework automatycznie wykrywa kontrolery podczas skanowania kodu źródłowego.
+                </div>
+            </section>
+
+            <section>
+                <h2>Krok 5: Layout (szablon główny)</h2>
+                <p>Utwórz plik <code>src/templates/layout.php</code>:</p>
+                <pre><code><span class="keyword">&lt;!DOCTYPE html&gt;</span>
+<span class="keyword">&lt;html</span> <span class="attribute">lang</span>=<span class="string">"pl"</span><span class="keyword">&gt;</span>
+<span class="keyword">&lt;head&gt;</span>
+    <span class="keyword">&lt;meta</span> <span class="attribute">charset</span>=<span class="string">"UTF-8"</span><span class="keyword">&gt;</span>
+    <span class="keyword">&lt;meta</span> <span class="attribute">name</span>=<span class="string">"viewport"</span> <span class="attribute">content</span>=<span class="string">"width=device-width, initial-scale=1.0"</span><span class="keyword">&gt;</span>
+    <span class="keyword">&lt;?php</span> <span class="variable">$view</span>-&gt;<span class="method">printTitle</span>(<span class="string">"Moja Aplikacja"</span>); <span class="keyword">?&gt;</span>
+    <span class="keyword">&lt;style&gt;</span>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; }
+        nav { background: #6366f1; color: white; padding: 1rem; margin: -20px -20px 20px; }
+        nav a { color: white; margin-right: 1rem; text-decoration: none; }
+        .container { max-width: 800px; margin: 0 auto; }
+    <span class="keyword">&lt;/style&gt;</span>
+<span class="keyword">&lt;/head&gt;</span>
+<span class="keyword">&lt;body&gt;</span>
+    <span class="keyword">&lt;nav&gt;</span>
+        <span class="keyword">&lt;a</span> <span class="attribute">href</span>=<span class="string">"/"</span><span class="keyword">&gt;</span>Strona główna<span class="keyword">&lt;/a&gt;</span>
+        <span class="keyword">&lt;a</span> <span class="attribute">href</span>=<span class="string">"/about"</span><span class="keyword">&gt;</span>O nas<span class="keyword">&lt;/a&gt;</span>
+    <span class="keyword">&lt;/nav&gt;</span>
+
+    <span class="keyword">&lt;div</span> <span class="attribute">class</span>=<span class="string">"container"</span><span class="keyword">&gt;</span>
+        <span class="keyword">&lt;?=</span> <span class="variable">$view</span>-&gt;<span class="attribute">content</span> <span class="keyword">?&gt;</span>
+    <span class="keyword">&lt;/div&gt;</span>
+<span class="keyword">&lt;/body&gt;</span>
+<span class="keyword">&lt;/html&gt;</span></code></pre>
+            </section>
+
+            <section>
+                <h2>Krok 6: Widok strony głównej</h2>
+                <p>Utwórz plik <code>src/templates/home.php</code>:</p>
+                <pre><code><span class="keyword">&lt;?php</span> <span class="variable">$view</span>-&gt;<span class="method">useLayout</span>(<span class="string">'@templates/layout'</span>); <span class="keyword">?&gt;</span>
+<span class="keyword">&lt;?php</span> <span class="variable">$view</span>-&gt;<span class="method">setTitle</span>(<span class="variable">$title</span>); <span class="keyword">?&gt;</span>
+
+<span class="keyword">&lt;h1&gt;</span><span class="keyword">&lt;?=</span> <span class="variable">$title</span> <span class="keyword">?&gt;</span><span class="keyword">&lt;/h1&gt;</span>
+<span class="keyword">&lt;p&gt;</span><span class="keyword">&lt;?=</span> <span class="variable">$message</span> <span class="keyword">?&gt;</span><span class="keyword">&lt;/p&gt;</span>
+
+<span class="keyword">&lt;h2&gt;</span>Funkcje StormPHP<span class="keyword">&lt;/h2&gt;</span>
+<span class="keyword">&lt;ul&gt;</span>
+    <span class="keyword">&lt;li&gt;</span>Lekki (~100KB)<span class="keyword">&lt;/li&gt;</span>
+    <span class="keyword">&lt;li&gt;</span>Zerowe zależności<span class="keyword">&lt;/li&gt;</span>
+    <span class="keyword">&lt;li&gt;</span>Dependency Injection<span class="keyword">&lt;/li&gt;</span>
+    <span class="keyword">&lt;li&gt;</span>Routing oparty na atrybutach<span class="keyword">&lt;/li&gt;</span>
+    <span class="keyword">&lt;li&gt;</span>System widoków<span class="keyword">&lt;/li&gt;</span>
+<span class="keyword">&lt;/ul&gt;</span></code></pre>
+
+                <p>Utwórz plik <code>src/templates/about.php</code>:</p>
+                <pre><code><span class="keyword">&lt;?php</span> <span class="variable">$view</span>-&gt;<span class="method">useLayout</span>(<span class="string">'@templates/layout'</span>); <span class="keyword">?&gt;</span>
+<span class="keyword">&lt;?php</span> <span class="variable">$view</span>-&gt;<span class="method">setTitle</span>(<span class="string">'O nas'</span>); <span class="keyword">?&gt;</span>
+
+<span class="keyword">&lt;h1&gt;</span>O StormPHP<span class="keyword">&lt;/h1&gt;</span>
+<span class="keyword">&lt;p&gt;</span>StormPHP to nowoczesny, lekki framework PHP stworzony z myślą o prostocie i wydajności.<span class="keyword">&lt;/p&gt;</span></code></pre>
+            </section>
+
+            <section>
+                <h2>Krok 7: Uruchom aplikację</h2>
+                <p>Uruchom wbudowany serwer PHP:</p>
+                <pre><code>cd public_html
+php -S localhost:8000</code></pre>
+                <p>Otwórz przeglądarkę i przejdź do <code>http://localhost:8000</code></p>
+
+                <div class="callout callout-success">
+                    <div class="callout-title">Gratulacje!</div>
+                    Twoja pierwsza aplikacja StormPHP działa! Spróbuj przejść również do <code>http://localhost:8000/about</code>
+                </div>
+            </section>
+
+            <section>
+                <h2>Dodawanie funkcjonalności</h2>
+
+                <h3>Obsługa formularzy</h3>
+                <p>Dodaj metodę POST do kontrolera:</p>
+                <pre><code><span class="keyword">use</span> <span class="class">Stormmore\Framework\Mvc\Attributes\Post</span>;
+<span class="keyword">use</span> <span class="class">Stormmore\Framework\Mvc\Request</span>;
+<span class="keyword">use</span> <span class="class">Stormmore\Framework\Mvc\Response</span>;
+<span class="keyword">use</span> <span class="class">Stormmore\Framework\Mvc\Redirect</span>;
+
+<span class="attribute">#[Post]</span>
+<span class="attribute">#[Route(<span class="string">"/contact"</span>)]</span>
+<span class="keyword">public function</span> <span class="method">contact</span>(<span class="class">Request</span> <span class="variable">$request</span>): <span class="class">Redirect</span>
+{
+    <span class="variable">$name</span> = <span class="variable">$request</span>-&gt;<span class="method">post</span>(<span class="string">'name'</span>);
+    <span class="variable">$email</span> = <span class="variable">$request</span>-&gt;<span class="method">post</span>(<span class="string">'email'</span>);
+
+    <span class="comment">// Przetwórz formularz...</span>
+
+    <span class="keyword">return</span> <span class="function">redirect</span>(<span class="string">'/'</span>)
+        -&gt;<span class="method">message</span>(<span class="string">'Dziękujemy za wiadomość!'</span>);
+}</code></pre>
+
+                <h3>Parametry URL</h3>
+                <p>Dodaj route z parametrami:</p>
+                <pre><code><span class="attribute">#[Get]</span>
+<span class="attribute">#[Route(<span class="string">"/user/:id"</span>)]</span>
+<span class="keyword">public function</span> <span class="method">user</span>(<span class="keyword">int</span> <span class="variable">$id</span>): <span class="class">View</span>
+{
+    <span class="keyword">return</span> <span class="function">view</span>(<span class="string">"@templates/user"</span>, [
+        <span class="string">'userId'</span> => <span class="variable">$id</span>
+    ]);
+}</code></pre>
+
+                <h3>JSON API</h3>
+                <p>Zwróć dane JSON:</p>
+                <pre><code><span class="attribute">#[Get]</span>
+<span class="attribute">#[Route(<span class="string">"/api/users"</span>)]</span>
+<span class="keyword">public function</span> <span class="method">apiUsers</span>(): <span class="keyword">array</span>
+{
+    <span class="keyword">return</span> [
+        [<span class="string">'id'</span> => <span class="number">1</span>, <span class="string">'name'</span> => <span class="string">'Jan Kowalski'</span>],
+        [<span class="string">'id'</span> => <span class="number">2</span>, <span class="string">'name'</span> => <span class="string">'Anna Nowak'</span>]
+    ];
+}</code></pre>
+            </section>
+
+            <section>
+                <h2>Następne kroki</h2>
+                <p>Teraz gdy masz działającą aplikację, możesz zgłębić więcej funkcji StormPHP:</p>
+                <ul>
+                    <li><a href="routing.html">Routing</a> - Zaawansowane wzorce routingu i parametry</li>
+                    <li><a href="controllers.html">Kontrolery</a> - Dependency injection i zaawansowane funkcje</li>
+                    <li><a href="views.html">Widoki</a> - Layouty, częściowe widoki i helpery</li>
+                    <li><a href="validation.html">Walidacja</a> - Walidacja formularzy i danych</li>
+                    <li><a href="database.html">Bazy danych</a> - Integracja z StormPHP Queries</li>
+                    <li><a href="tutorial.html">Tutorial</a> - Pełny przewodnik budowy aplikacji</li>
+                </ul>
+            </section>
+
+            <div class="docs-nav">
+                <a href="installation.html" class="nav-link nav-link-prev">
+                    <span>Instalacja</span>
+                </a>
+                <a href="routing.html" class="nav-link nav-link-next">
+                    <span>Routing</span>
+                </a>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
