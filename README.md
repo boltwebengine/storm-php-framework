@@ -1,4 +1,4 @@
-# ⚡ StormPHP Framework
+# ⚡ BoltPHP Framework
 
 Built with love to deliver joy and satisfaction with every piece of code you write.
 StormPHP is designed to be **intuitive, lightweight, and blazing fast** — the simplest app takes just **4 lines of code**.
